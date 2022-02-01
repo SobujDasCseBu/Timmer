@@ -1,0 +1,246 @@
+<html>
+    <head>
+        <title>JavaScript</title>
+    </head>
+<style>
+	body {
+    background: #fff;
+    color: blue;
+}
+button {
+    width: 150px;
+    height: 60px;
+    
+	padding: 15px;
+	font-size:25px;
+    border-radius: 10px;
+    background: blue;
+    color: white;
+    cursor: pointer;
+    outline: none;
+	text-align: center;
+}
+input{
+    width: 150px;
+    height: 60px;
+    
+	padding: 15px;
+	font-size:25px;
+    
+}
+#stopwatch {
+    font-size: 100px;
+    position: absolute;
+    
+}
+#s_value{
+
+}
+#heading{
+color:gray;
+font-size:20px;
+}
+#buttons {
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    transform: translate(-51.6%, -45%);
+}
+#buttons li {
+    display: inline;
+    padding-left: 10px;
+}
+*,*:after,*:before{
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body{
+	font-family: arial;
+	font-size: 16px;
+	margin: 0;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	height: 100vh;
+}
+
+svg{
+	width: 200px;
+	height: 200px;	
+	transform: rotate(-90deg);
+	overflow: initial;
+}
+
+circle{
+	stroke-width:20px;
+	fill:none;	
+}
+circle:nth-child(1){ stroke: #fff }
+circle:nth-child(2){
+	stroke: #f00;
+	position: relative;
+	z-index: 1;	
+}
+
+#circle_box{
+	stroke-dashoffset:calc(100 * 6);
+	stroke-dasharray:calc(100 * 6);
+	stroke-dashoffset:calc((100 * 6) - ((100 * 6) * 100) / 100);
+	stroke-position: inside;
+}
+
+#circle_box{
+	font-size: 36px;
+	color: #fff;
+	text-align: center;
+}
+#circle_box div{
+	position: relative;
+}
+#circle_box span{
+	position: absolute;
+	left: 50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+	color: #122325;
+	font-size: 40px;
+}
+
+
+</style>
+ <body> 
+     
+     <div>
+        <ul id="buttons">
+            <li><button id="reset_start">Start</button></li>
+            <li><button id="stop_start">Pause</button></li>
+			
+        </ul>
+	 </div>
+      <div id "s_value">
+	              <p id="heading">How many time run your watch:</p>
+		         <input type="number"  id="get_value" placeholder="Enter Your value">
+			     <button onclick="myFunction()">Submit</button>
+				 <p id="demo"></p>
+			
+	  
+	  </div>
+      
+     
+	 <div id="circle_box" >
+		<div>
+			<svg >
+				<circle cx="100" cy="100" r="95" />
+				<circle cx="100" cy="100" r="95" />
+			</svg>
+			<span>
+			<div>
+			<div id="stopwatch">
+                10
+           </div>
+		   </div>
+			</span>
+		</div>
+		
+	</div> 
+ 
+<script>
+var k=0 ;
+var g=0;
+var p;
+function myFunction() {
+  var c = document.getElementById("get_value").value;
+   p = +c;
+  //document.getElementById("demo").innerHTML = p+2;
+  g=p*1;
+}
+
+const timer = document.getElementById('stopwatch');
+
+
+ var x = document.getElementById("stop_start");
+ x.addEventListener("click", stopTimer);
+ 
+ var y = document.getElementById("reset_start");
+ y.addEventListener("click", startTimer);
+
+
+  var sec = 10;
+  var stoptime = true;
+var d=1;
+function startTimer() {
+  
+  if (stoptime == true && d==1 ) {
+        stoptime = false;
+		
+        timerCycle();
+	    //console.log("First:");
+		document.getElementById("reset_start").innerHTML = "Reset<br>";
+    }
+	else{
+	timer.innerHTML = "10";
+	  //console.log("reset:");
+      //timerCycle();
+	  d = 0;
+	 document.getElementById("circle_box").style.strokeDashoffset="calc((100 * 6) - ((100 * 6)*100) / 100.0)";
+	
+    document.getElementById("reset_start").innerHTML = "Reset<br>";
+    sec = 10;
+	 
+	}
+}
+function stopTimer() {
+  
+  if (stoptime == false ) {
+    stoptime = true;
+	d = 0;
+	//console.log("second:");
+	document.getElementById("stop_start").innerHTML = "Resume<br>";
+  }
+  else if(stoptime == true ){
+        stoptime = false;
+        timerCycle();
+		d = 0;
+		//console.log("start");
+		document.getElementById("stop_start").innerHTML = "Pause<br>";
+  }
+}
+
+function timerCycle() {
+    if (stoptime == false) {
+    sec = parseInt(sec);
+    
+	 
+    sec = sec - 1;
+    
+    if (sec == 0) {
+      sec = 10;
+	  k=k+1;
+    }
+	//var z=(100 * 6) - ((100 * 6)*sec*10) / 100.0;
+   
+     
+    if (sec < 10 || sec == 0) {
+      sec = '0' + sec;
+    }
+    
+
+    timer.innerHTML = sec;
+	
+	
+	document.getElementById("circle_box").style.strokeDashoffset="calc((100 * 6) - ((100 * 6)*"+sec+"*10) / 100.0)";
+	
+    if(k < g){
+       setTimeout("timerCycle()", 1000);
+	}
+	
+  }
+}
+
+
+</script>
+</body>
+</html>
